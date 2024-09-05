@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "topping")
 @Entity
 public class Topping extends Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
 

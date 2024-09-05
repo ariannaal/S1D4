@@ -1,42 +1,51 @@
 package com.example.S1D4;
 
 
+import com.example.S1D4.entities.Drink;
+import com.example.S1D4.entities.Pizza;
+import com.example.S1D4.entities.Topping;
+import com.example.S1D4.repositories.ItemsRepository;
+import com.example.S1D4.services.ItemsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class MyRunner implements CommandLineRunner {
+
+    @Autowired
+    private ItemsService itemsService;
+
     @Override
     public void run(String... args) throws Exception {
 
-        //crea un contesto di applicazione basato sulla configurazione definita nella classe S1D1Application
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(S1D4Application.class);
-        try {
-//            Menu m = (Menu) ctx.getBean("menu"); //  recupera il bean "menu" dal contesto Spring e lo stampa
-//            m.printMenu();
-//
-//            Table t1 = (Table) ctx.getBean("Tavolo1");
-//
-//            Order o1 = new Order(4, t1);
+        // Create items
+        List<Topping> toppings = new ArrayList<>();
+        Topping cheese = new Topping("Cheese", 20, 2.5);
+        Topping tomato = new Topping("Tomato", 100, 1.5);
+        toppings.add(cheese);
+        toppings.add(tomato);
 
-            // aggiunbge agli ordini
-//            o1.addItem(ctx.getBean("pizza_margherita", Pizza.class));
-//            o1.addItem(ctx.getBean("hawaiian_pizza", Pizza.class));
-//            o1.addItem(ctx.getBean("salami_pizza_xl", Pizza.class));
-//            o1.addItem(ctx.getBean("lemonade", Drink.class));
-//            o1.addItem(ctx.getBean("lemonade", Drink.class));
-//            o1.addItem(ctx.getBean("wine", Drink.class));
-//
-//            System.out.println("DETTAGLI TAVOLO 1:");
-//            o1.print();
-//
-//            System.out.println("CONTO TAVOLO 1");
-//            System.out.println(o1.getTotal());
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        } finally {
-            ctx.close();
+        Pizza pizza = new Pizza("Pizza Margherita", toppings, false);
+
+        Drink lemonade = new Drink("Lemonade", 128, 1.29);
+        Drink water = new Drink("Water", 0, 1.29);
+        Drink wine = new Drink("Wine", 607, 7.49);
+
+        // Save items using the service
+
+        for (int i = 0; i < toppings.size(); i++) {
+        itemsService.saveItem(toppings.get(i));
+
         }
+        itemsService.saveItem(pizza);
+        itemsService.saveItem(lemonade);
+        itemsService.saveItem(water);
+        itemsService.saveItem(wine);
+
     }
 }

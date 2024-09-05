@@ -13,15 +13,21 @@ public class ItemsService {
     @Autowired
     private ItemsRepository itemsRepository;
 
-    public Item saveItem(Item item) {
-        return itemsRepository.save(item);
-    }
 
     public List<Item> getAllItems() {
         return itemsRepository.findAll();
     }
 
-//    public List<Item> getItemsUnderPrice(double price) {
-//        return itemRepository.filterSoloSotto15();
-//    }
+    public void saveItem(Item newItem) {
+
+        try
+        {
+        itemsRepository.save(newItem);
+        System.out.println("New item " + newItem + " saved successfully!");
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
